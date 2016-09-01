@@ -31,7 +31,7 @@ object Main extends App {
   val parser = new scopt.OptionParser[Config]("s3-encrypt") {
     opt[String]('r', "region")
       .action((r, cfg) => cfg.copy(region = r))
-      .text("AWS region")
+      .text("AWS region (default = eu-west-1)")
 
     opt[String]('p', "profile")
       .action((p, cfg) => cfg.copy(profile = p))
