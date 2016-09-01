@@ -27,7 +27,6 @@ object Main extends App {
     profile: String = "",
     command: Command = Unspecified
   )
-  // TODO make ACL configurable
 
   val parser = new scopt.OptionParser[Config]("s3-encrypt") {
     opt[String]('r', "region")
@@ -61,6 +60,8 @@ object Main extends App {
     checkConfig(cfg => {
       if (Try(Regions.fromName(cfg.region)).isFailure)
         failure(s"Invalid AWS region: ${cfg.region}")
+      else if (Try(new AmazonS3URI(cfg.s3url)).isFailure)
+        failure(s"Invalid S3 URL: ${cfg.s3url}")
       else if (cfg.command == Unspecified)
         failure("Must specify whether you want to upload or download")
       else
